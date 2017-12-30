@@ -6,13 +6,19 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Estates Home</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goHome()">
+          <ion-icon name="home"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
-
-<ion-content padding>
-
-</ion-content>
+<ion-tabs>
+  <ion-tab tabTitle="Overview" [root]="OverviewPageTab" [rootParams]="{estate: estate}" tabIcon="globe"></ion-tab>
+  <ion-tab tabTitle="Map" [root]="MapPageTab" [rootParams]="{estate: estate}" tabIcon="map"></ion-tab>
+  <ion-tab tabTitle="Similar" [root]="SimilarPageTab" [rootParams]="{estate: estate}" tabIcon="git-compare"></ion-tab>
+</ion-tabs>

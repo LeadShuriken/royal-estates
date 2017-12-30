@@ -6,13 +6,32 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>My Estates</ion-title>
+  <ion-navbar color="primary">
+    <button menuToggle ion-button icon-only>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Royal Estates</ion-title>
   </ion-navbar>
-
+  <ion-toolbar color="secondary">
+    <ion-title>My Estates</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+      <ion-item-sliding *ngFor="let estate of estates">
+        <ion-item>
+          <ion-card>
+              <img [src]="urlImg" (click)="show()" />
+              <ion-fab right bottom>
+                  <button ion-fab (click)="edit()">
+                  <ion-icon name="brush"></ion-icon>
+                </button>
+                </ion-fab>
+                <div class="card-title">Amsterdam</div>
+          </ion-card>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
 </ion-content>

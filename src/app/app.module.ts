@@ -1,12 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { EstatesHomePage, LocationsPage, EstatesPage, MyEstatesPage } from '../pages/pages';
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
+import { ErrorHandler, NgModule } from "@angular/core";
+import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
+import { RoyalEstatesApiProvider } from "../providers/royal-estates-api/royal-estates-api";
 
-import { MyApp } from './app.component';
+import {
+  EstatesHomePage,
+  LocationsPage,
+  EstatesPage,
+  MyEstatesPage,
+  OverviewPage,
+  MapPage,
+  SimilarPage
+} from "../pages/pages";
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { MyApp } from "./app.component";
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
 
 @NgModule({
   declarations: [
@@ -14,24 +24,28 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     EstatesHomePage,
     LocationsPage,
     EstatesPage,
-    MyEstatesPage
+    MyEstatesPage,
+    OverviewPage,
+    MapPage,
+    SimilarPage
   ],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(MyApp),
-  ],
+  imports: [BrowserModule, IonicModule.forRoot(MyApp), HttpClientModule],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     EstatesHomePage,
     LocationsPage,
     EstatesPage,
-    MyEstatesPage
+    MyEstatesPage,
+    OverviewPage,
+    MapPage,
+    SimilarPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    RoyalEstatesApiProvider
   ]
 })
 export class AppModule {}

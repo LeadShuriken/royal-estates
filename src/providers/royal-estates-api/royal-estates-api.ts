@@ -1,7 +1,7 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
+import _ from "lodash";
 import "rxjs/add/observable/throw";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/do";
@@ -16,8 +16,11 @@ import "rxjs/add/observable/of";
 */
 @Injectable()
 export class RoyalEstatesApiProvider {
-
   private baseUrl = "https://royal-estates.firebaseio.com/";
+
+  estate: any = {};
+  estates = [];
+  savedEstates = [];
 
   constructor(public http: HttpClient) {
     console.log("Hello RoyalEstatesApiProvider Provider");
@@ -30,13 +33,33 @@ export class RoyalEstatesApiProvider {
       .catch(this.handleError);
   }
 
-  getLocation(locationId): Observable<any> {
+  getLocationData(locationId): Observable<any> {
     return this.http
-      .get(`${this.baseUrl}/locations-data/${estateId}.json`)
+      .get(`${this.baseUrl}/locations-data/${locationId}.json`)
       .map(response => {
-        this.currentTourney = response;
-        return this.currentTourney;
+        this.estates = response;
+        return response;
       });
+  }
+
+  isInSavedEstates(estate: any) {
+    return _.includes(this.savedEstates, estate);
+  }
+
+  addToSavedEstates(estate: any) {
+    this.savedEstates.push(estate);
+  }
+
+  removeFromSavedEstates(estate: any) {
+    _.remove(this.savedEstates, estate);
+  }
+
+  getCurrentEstate() {
+    return this.estate;
+  }
+
+  setCurrentEstate(estate: any) {
+    this.estate = estate;
   }
 
   private handleError(err: HttpErrorResponse) {

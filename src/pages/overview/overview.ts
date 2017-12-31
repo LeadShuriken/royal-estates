@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { RoyalEstatesApiProvider } from "../../providers/royal-estates-api/royal-estates-api";
 /**
  * Generated class for the OverviewPage page.
  *
@@ -10,16 +10,41 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-overview',
-  templateUrl: 'overview.html',
+  selector: "page-overview",
+  templateUrl: "overview.html"
 })
 export class OverviewPage {
+  estate: any = { refNumber: "" };
+  included = true;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public customApi: RoyalEstatesApiProvider
+  ) {
+    this.estate = this.customApi.getCurrentEstate();
+    this.included = this.customApi.isInSavedEstates(this.estate);
+  }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  saveHandle() {
+    if (this.includes) {
+      this.customApi.removeFromSavedEstates(this.estate);
+    } else {
+      this.customApi.addToSavedEstates(this.estate);
+    }
+    this.includes = !this.includes;
+  }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+    setTimeout(() => {
+      this.estate = this.customApi.getCurrentEstate();
+      this.included = this.customApi.isInSavedEstates(this.estate);
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OverviewPage');
+    console.log("ionViewDidLoad OverviewPage");
   }
-
 }

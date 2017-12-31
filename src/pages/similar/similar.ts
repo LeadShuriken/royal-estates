@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { RoyalEstatesApiProvider } from "../../providers/royal-estates-api/royal-estates-api";
 /**
  * Generated class for the SimilarPage page.
  *
@@ -10,16 +10,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-similar',
-  templateUrl: 'similar.html',
+  selector: "page-similar",
+  templateUrl: "similar.html"
 })
 export class SimilarPage {
+  estate: any = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public customApi: RoyalEstatesApiProvider
+  ) {
+    this.estate = this.customApi.getCurrentEstate();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SimilarPage');
+    console.log("ionViewDidLoad SimilarPage");
   }
-
 }

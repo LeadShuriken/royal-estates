@@ -5,6 +5,7 @@ import {
   NavParams,
   LoadingController
 } from "ionic-angular";
+import { EstatesPage } from "../pages";
 import { RoyalEstatesApiProvider } from "../../providers/royal-estates-api/royal-estates-api";
 /**
  * Generated class for the LocationsPage page.
@@ -39,5 +40,9 @@ export class LocationsPage {
         loader.dismiss();
       });
     });
+  }
+
+  itemTapped($event, item) {
+    this.navCtrl.push(EstatesPage, { item: item });
   }
 }

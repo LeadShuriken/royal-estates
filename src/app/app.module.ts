@@ -3,6 +3,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { RoyalEstatesApiProvider } from "../providers/royal-estates-api/royal-estates-api";
+import { PipesModule } from '../pipes/pipes.module';
 
 import {
   EstatesHomePage,
@@ -29,7 +30,12 @@ import { SplashScreen } from "@ionic-native/splash-screen";
     MapPage,
     SimilarPage
   ],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp), HttpClientModule],
+  imports: [
+    PipesModule,
+    BrowserModule,
+    IonicModule.forRoot(MyApp),
+    HttpClientModule
+  ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,

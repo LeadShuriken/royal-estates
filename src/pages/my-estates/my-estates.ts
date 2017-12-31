@@ -21,5 +21,4 @@ export class MyEstatesPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyEstatesPage');
   }
-
 }

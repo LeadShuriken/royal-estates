@@ -20,7 +20,7 @@ export class EstatesHomePage {
   SimilarPageTab: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.estate = navParams.get("estate");
+    this.estate = navParams.get("item");
     this.OverviewPageTab = OverviewPage;
     this.MapPageTab = MapPage;
     this.SimilarPageTab = SimilarPage;

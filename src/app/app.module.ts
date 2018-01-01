@@ -4,6 +4,7 @@ import { ErrorHandler, NgModule } from "@angular/core";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { RoyalEstatesApiProvider } from "../providers/royal-estates-api/royal-estates-api";
 import { PipesModule } from '../pipes/pipes.module';
+import { IonicStorageModule } from '@ionic/storage';
 
 import {
   EstatesHomePage,
@@ -18,6 +19,7 @@ import {
 import { MyApp } from "./app.component";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
+import { EstatePersistanceProvider } from '../providers/estate-persistance/estate-persistance';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
     PipesModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     HttpClientModule
   ],
   bootstrap: [IonicApp],
@@ -51,7 +54,8 @@ import { SplashScreen } from "@ionic-native/splash-screen";
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    RoyalEstatesApiProvider
+    RoyalEstatesApiProvider,
+    EstatePersistanceProvider
   ]
 })
 export class AppModule {}

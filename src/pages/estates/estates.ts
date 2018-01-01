@@ -20,7 +20,7 @@ import { EstatesHomePage } from "../pages";
   templateUrl: "estates.html"
 })
 export class EstatesPage {
-  location: any = {};
+  location: any;
   estates = [];
   constructor(
     public navCtrl: NavController,
@@ -32,20 +32,45 @@ export class EstatesPage {
   }
 
   ionViewDidLoad() {
-    console.log("ionViewDidLoad EstatesPage");
-    let loader = this.loadingController.create({
-      content: "Getting estates in location...",
-      spinner: "dots"
-    });
-    loader.present().then(() => {
-      this.customApi.getLocationData(this.location.id).subscribe(data => {
-        this.estates = data.estates;
-        loader.dismiss();
+    if (this.location) {
+      let loader = this.loadingController.create({
+        content: "Getting estates in " + this.location.name,
+        spinner: "dots"
       });
-    });
+      loader.present().then(() => {
+        this.customApi
+          .getLocationEstateData(this.location)
+          .subscribe(data => {
+            this.estates = data.estates;
+            loader.dismiss();
+          });
+      });
+    } else {
+      let loader = this.loadingController.create({
+        content: "Getting estates from all over.",
+        spinner: "dots"
+      });
+      loader.present().then(() => {
+        this.customApi.getAllEstatesData().subscribe(data => {
+          this.estates = [];
+          data.map(location => {
+            this.estates = this.estates.concat(location);
+          });
+          this.location = { name: "All Over" };
+          loader.dismiss();
+        });
+      });
+    }
   }
   itemTapped($event, item) {
     this.customApi.setCurrentEstate(item);
+    if (this.location.name === "All Over") {
+      this.location.name = item.locationName;
+      this.location["id"] = item.locationId;
+      this.customApi.getLocationEstateData(this.location).subscribe(data => {
+        this.estates = data.estates;
+      });
+    }
     this.navCtrl.push(EstatesHomePage, { item: item });
   }
 }

@@ -3,7 +3,7 @@ import { Nav, Platform } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { MyEstatesPage } from "../pages/pages";
-import { LocationsPage, EstatesHomePage } from "../pages/pages";
+import { LocationsPage, EstatesPage } from "../pages/pages";
 
 @Component({
   templateUrl: "app.html"
@@ -41,6 +41,6 @@ export class MyApp {
   }
 
   goToSavedEstates() {
-    this.nav.push(EstatesHomePage);
+    this.nav.push(EstatesPage);
   }
 }

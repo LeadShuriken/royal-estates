@@ -19,19 +19,36 @@
 
 
 <ion-content padding>
-  <ion-list>
-      <ion-item-sliding *ngFor="let estate of estates">
-        <ion-item>
-          <ion-card>
-              <img [src]="urlImg" (click)="show()" />
-              <ion-fab right bottom>
-                  <button ion-fab (click)="edit()">
-                  <ion-icon name="brush"></ion-icon>
-                </button>
-                </ion-fab>
-                <div class="card-title">Amsterdam</div>
-          </ion-card>
+  <ion-card *ngIf='estates.length == 0'>
+    <ion-card-header>
+      Nothing saved...
+    </ion-card-header>
+  </ion-card>
+  <ion-card *ngIf='estates.length != 0'>
+    <ion-card-header>
+      Saved Estates
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let item of estates">
+          <ion-thumbnail item-start>
+            <img src="{{item.image}}">
+          </ion-thumbnail>
+          <h2>Ref No. {{item.refNumber}}</h2>
+          <p>{{item.type}}, {{item.bedrooms}} bedrooms</p>
+          <p>{{item.locationName}}, {{item.region}}</p>
+          <button ion-button clear item-end (click)="itemTapped($event, item)">View</button>
         </ion-item>
-      </ion-item-sliding>
-    </ion-list>
+      </ion-list>
+    </ion-card-content>
+    <ion-item padding>
+      <ion-item text-wrap>
+        To save more estates,select a location, then you can sace estates from their estate overview page.
+      </ion-item>
+      <button ion-item style="width: auto; border: 1px solid blue; border-radius:5px; background-color:blue; font-weight: bold; color:white; text-align:center;" (click)="itemTapped()">
+        <ion-icon name="glasses"></ion-icon>
+        FIND A LOCATION
+    </button>
+    </ion-item>
+  </ion-card>
 </ion-content>

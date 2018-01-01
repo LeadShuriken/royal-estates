@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
-import _ from "lodash";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/observable/forkJoin";
 import "rxjs/add/observable/throw";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/do";
@@ -18,50 +19,75 @@ import "rxjs/add/observable/of";
 export class RoyalEstatesApiProvider {
   private baseUrl = "https://royal-estates.firebaseio.com/";
 
-  estate: any = {};
-  estates = [];
-  savedEstates = [];
+  estate: any;
+  location: any;
 
-  constructor(public http: HttpClient) {
-    console.log("Hello RoyalEstatesApiProvider Provider");
-  }
+  constructor(public http: HttpClient) { }
 
   getLocations(): Observable<any> {
     return this.http
       .get<any>(`${this.baseUrl}/locations.json`)
-      .do(data => console.log("All: " + JSON.stringify(data)))
       .catch(this.handleError);
   }
 
-  getLocationData(locationId): Observable<any> {
+  getAllEstatesData(): Observable<any> {
+    this.location = null;
     return this.http
-      .get(`${this.baseUrl}/locations-data/${locationId}.json`)
-      .map(response => {
-        this.estates = response;
-        return response;
+      .get<any>(`${this.baseUrl}/locations.json`)
+      .mergeMap((locations: any[]) => {
+        if (locations.length > 0) {
+          return Observable.forkJoin(
+            locations.map((location: any) => {
+              return this.http
+                .get(`${this.baseUrl}/locations-data/${location.id}.json`)
+                .map(estateLocation => {
+                  if (
+                    estateLocation !== null &&
+                    estateLocation['estates'] !== null
+                  ) {
+                    for (let i = 0; i < estateLocation['estates'].length; i++) {
+                      estateLocation['estates'][i]["locationName"] = location.name;
+                      estateLocation['estates'][i]["locationId"] = location.id;
+                    }
+                    return estateLocation.estates;
+                  }
+                  return [];
+                });
+            })
+          );
+        }
+        return Observable.of([]);
       });
   }
 
-  isInSavedEstates(estate: any) {
-    return _.includes(this.savedEstates, estate);
-  }
-
-  addToSavedEstates(estate: any) {
-    this.savedEstates.push(estate);
-  }
-
-  removeFromSavedEstates(estate: any) {
-    _.remove(this.savedEstates, estate);
+  getLocationEstateData(location): Observable<any> {
+    return this.http
+      .get(`${this.baseUrl}/locations-data/${location.id}.json`)
+      .map(response => {
+        this.location = response;
+        for (let i = 0; i < this.location['estates'].length; i++) {
+          this.location['estates'][i]["locationName"] = location.name;
+          this.location['estates'][i]["locationId"] = location.id;
+        }
+        return this.location;
+      });
   }
 
   getCurrentEstate() {
     return this.estate;
   }
 
+  getCurrentLocation() {
+    return this.location;
+  }
+
   setCurrentEstate(estate: any) {
     this.estate = estate;
   }
 
+  setCurrentLocation(location: any) {
+    this.location = location;
+  }
   private handleError(err: HttpErrorResponse) {
     console.error(err);
     return Observable.throw(err);

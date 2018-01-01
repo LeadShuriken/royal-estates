@@ -1,6 +1,12 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams
+} from "ionic-angular";
 import { RoyalEstatesApiProvider } from "../../providers/royal-estates-api/royal-estates-api";
+import { EstatePersistanceProvider } from "../../providers/estate-persistance/estate-persistance";
+import { ToastController } from "ionic-angular";
 /**
  * Generated class for the OverviewPage page.
  *
@@ -15,33 +21,50 @@ import { RoyalEstatesApiProvider } from "../../providers/royal-estates-api/royal
 })
 export class OverviewPage {
   estate: any = { refNumber: "" };
-  included = true;
+  includes = false;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public customApi: RoyalEstatesApiProvider
+    public customApi: RoyalEstatesApiProvider,
+    public toastCtrl: ToastController,
+    public persistance: EstatePersistanceProvider
   ) {
-    this.estate = this.customApi.getCurrentEstate();
-    this.included = this.customApi.isInSavedEstates(this.estate);
+    this.estate = customApi.getCurrentEstate();
+    this.includes = persistance.isInSavedEstates(this.estate);
   }
 
   saveHandle() {
     if (this.includes) {
-      this.customApi.removeFromSavedEstates(this.estate);
+      this.showToastWithSelectors();
     } else {
-      this.customApi.addToSavedEstates(this.estate);
+      this.persistance.addToSavedEstates(this.estate);
+      this.includes = true;
     }
-    this.includes = !this.includes;
+  }
+
+  showToastWithSelectors() {
+    const displayedTime = new Date().getTime();
+    const duration: number = 10000;
+    const toast = this.toastCtrl.create({
+      message: "Are you sure you want to remove this estate from saved.",
+      showCloseButton: true,
+      closeButtonText: "Yes",
+      dismissOnPageChange: false
+    });
+    toast.onDidDismiss(() => {
+      const now = new Date().getTime();
+      if (displayedTime + duration > now) {
+        this.persistance.removeFromSavedEstates(this.estate);
+        this.includes = false;
+      }
+    });
+    toast.present();
   }
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
-    setTimeout(() => {
-      this.estate = this.customApi.getCurrentEstate();
-      this.included = this.customApi.isInSavedEstates(this.estate);
-      console.log('Async operation has ended');
-      refresher.complete();
-    }, 2000);
+    this.estate = this.customApi.getCurrentEstate();
+    this.includes = this.persistance.isInSavedEstates(this.estate);
+    refresher.complete();
   }
 
   ionViewDidLoad() {

@@ -12,22 +12,25 @@
 
 <ion-content padding>
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content>
-      <ion-card>
-        <img src="{{estate.image}}" />
-        <ion-card-content>
-          <ion-card-title>
-            <button ion-button clear item-end (click)="saveHandle()">{{included ? "REMOVE FROM MY ESTATES" : "SAVE TO MY ESTATES"}}</button>
-          </ion-card-title>
-          <p>{{estate.type}},
-            <ion-badge item-end>{{estate.bedrooms}}</ion-badge> Bedroom</p>
-          <p></p>
-          <p>Area: {{estate.area}} m<sup>2</sup></p>
-          <p>Price: {{estate.price | currency:'USD':true:'2.2-2'}}</p>
-          <p></p>
-          <p>{{estate.address}}</p>
-        </ion-card-content>
-      </ion-card>
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Loading Assets...">
     </ion-refresher-content>
   </ion-refresher>
+  <ion-card>
+    <img src="{{estate.image}}" />
+    <ion-card-content>
+      <ion-card-title>
+        <button style="border: 1px solid; border-radius:5px;" color="{{includes ? 'primary' : 'secondary'}}" ion-button icon-start (click)="saveHandle()" clear item-end>
+                <ion-icon name="{{includes ? 'close-circle' : 'checkmark-circle'}}"></ion-icon>
+                {{includes ? "REMOVE FROM MY ESTATES" : "SAVE TO MY ESTATES"}}
+            </button>
+      </ion-card-title>
+      <p>{{estate.type}},
+        <ion-badge item-end>{{estate.bedrooms}}</ion-badge> Bedroom</p>
+      <p></p>
+      <p>Area: {{estate.area}} m<sup>2</sup></p>
+      <p>Price: {{estate.price | currency:'USD':true:'2.2-2'}}</p>
+      <p></p>
+      <p>{{estate.address}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

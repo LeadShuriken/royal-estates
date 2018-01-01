@@ -29,7 +29,6 @@ export class LocationsPage {
   ) {}
 
   ionViewDidLoad() {
-    console.log("ionViewDidLoad LocationsPage");
     let loader = this.loadingController.create({
       content: "Getting locations...",
       spinner: "dots"

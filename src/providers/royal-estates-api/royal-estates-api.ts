@@ -49,7 +49,7 @@ export class RoyalEstatesApiProvider {
                       estateLocation['estates'][i]["locationName"] = location.name;
                       estateLocation['estates'][i]["locationId"] = location.id;
                     }
-                    return estateLocation.estates;
+                    return estateLocation['estates'];
                   }
                   return [];
                 });

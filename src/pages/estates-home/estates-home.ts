@@ -32,6 +32,7 @@ export class EstatesHomePage {
     this.OverviewPageTab = OverviewPage;
     this.MapPageTab = MapPage;
     this.SimilarPageTab = SimilarPage;
+    events.unsubscribe("estate:updated");
     events.subscribe("estate:updated", data => {
       events.unsubscribe("estate:updated");
       this.navCtrl.pop();

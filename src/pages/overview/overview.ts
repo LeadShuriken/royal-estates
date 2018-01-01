@@ -20,7 +20,7 @@ import { ToastController } from "ionic-angular";
   templateUrl: "overview.html"
 })
 export class OverviewPage {
-  estate: any = { refNumber: "" };
+  estate: any = {};
   includes = false;
   constructor(
     public navCtrl: NavController,

@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { RoyalEstatesApiProvider } from "../providers/royal-estates-api/royal-estates-api";
 import { PipesModule } from '../pipes/pipes.module';
 import { IonicStorageModule } from '@ionic/storage';
+import { AgmCoreModule } from '@agm/core';
 
 import {
   EstatesHomePage,
@@ -37,6 +38,9 @@ import { EstatePersistanceProvider } from '../providers/estate-persistance/estat
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDc4OI_H9wLBTycrCP4WjCbc24o02iWBaM'
+    }),
     HttpClientModule
   ],
   bootstrap: [IonicApp],

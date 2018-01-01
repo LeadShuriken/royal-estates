@@ -40,15 +40,15 @@
           <button ion-button clear item-end (click)="itemTapped($event, item)">View</button>
         </ion-item>
       </ion-list>
-    </ion-card-content>
-    <ion-item padding>
-      <ion-item text-wrap>
-        To save more estates,select a location, then you can sace estates from their estate overview page.
+      <ion-item padding>
+        <ion-item text-wrap>
+          To save more estates,select a location, then you can sace estates from their estate overview page.
+        </ion-item>
+        <button ion-item style="border: 1px solid blue; border-radius:5px; background-color:blue; font-weight: bold; color:white; text-align:center;" (click)="goToLocations()">
+          <ion-icon name="search"></ion-icon>
+          FIND A LOCATION
+      </button>
       </ion-item>
-      <button ion-item style="width: auto; border: 1px solid blue; border-radius:5px; background-color:blue; font-weight: bold; color:white; text-align:center;" (click)="itemTapped()">
-        <ion-icon name="glasses"></ion-icon>
-        FIND A LOCATION
-    </button>
-    </ion-item>
+    </ion-card-content>
   </ion-card>
 </ion-content>

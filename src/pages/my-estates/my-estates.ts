@@ -36,7 +36,7 @@ export class MyEstatesPage {
     this.navCtrl.push(EstatesHomePage, { item: item });
   }
 
-  locations() {
+  goToLocations() {
     this.navCtrl.push(LocationsPage);
   }
 

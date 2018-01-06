@@ -9,7 +9,13 @@
     <ion-list>
       <ion-list-header>Navigate</ion-list-header>
       <button menuClose ion-item (click)="goToLocations()">Find a Location</button>
-      <button menuClose ion-item  (click)="goToSavedEstates()">List of all estates</button>
+      <button menuClose ion-item (click)="goToSavedEstates()">List of all estates</button>
+    </ion-list>
+    <ion-list>
+      <ion-list-header>Saved Content</ion-list-header>
+      <ion-item *ngFor="let item of estates">
+        <button ion-button full item-start (click)="itemTapped($event, item)">Ref No. {{item.refNumber}}</button>
+      </ion-item>
     </ion-list>
   </ion-content>
 

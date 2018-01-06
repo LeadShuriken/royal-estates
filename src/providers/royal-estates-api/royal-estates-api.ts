@@ -22,7 +22,7 @@ export class RoyalEstatesApiProvider {
   estate: any;
   location: any;
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {}
 
   getLocations(): Observable<any> {
     return this.http
@@ -43,13 +43,14 @@ export class RoyalEstatesApiProvider {
                 .map(estateLocation => {
                   if (
                     estateLocation !== null &&
-                    estateLocation['estates'] !== null
+                    estateLocation["estates"] !== null
                   ) {
-                    for (let i = 0; i < estateLocation['estates'].length; i++) {
-                      estateLocation['estates'][i]["locationName"] = location.name;
-                      estateLocation['estates'][i]["locationId"] = location.id;
+                    for (let i = 0; i < estateLocation["estates"].length; i++) {
+                      estateLocation["estates"][i]["locationName"] =
+                        location.name;
+                      estateLocation["estates"][i]["locationId"] = location.id;
                     }
-                    return estateLocation['estates'];
+                    return estateLocation["estates"];
                   }
                   return [];
                 });
@@ -65,9 +66,9 @@ export class RoyalEstatesApiProvider {
       .get(`${this.baseUrl}/locations-data/${location.id}.json`)
       .map(response => {
         this.location = response;
-        for (let i = 0; i < this.location['estates'].length; i++) {
-          this.location['estates'][i]["locationName"] = location.name;
-          this.location['estates'][i]["locationId"] = location.id;
+        for (let i = 0; i < this.location["estates"].length; i++) {
+          this.location["estates"][i]["locationName"] = location.name;
+          this.location["estates"][i]["locationId"] = location.id;
         }
         return this.location;
       });

@@ -56,11 +56,12 @@ export class OverviewPage {
           handler: () => {
             const toast = this.toastCtrl.create({
               message: "You have removed the estate from the selection.",
-              dismissOnPageChange: false
+              duration: 2000,
+              dismissOnPageChange: true
             });
-            toast.present();
             this.persistance.removeFromSavedEstates(this.estate);
             this.includes = false;
+            toast.present();
           }
         }
       ]

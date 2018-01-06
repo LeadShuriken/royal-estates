@@ -1,12 +1,8 @@
 import { Component } from "@angular/core";
-import {
-  IonicPage,
-  NavController,
-  NavParams
-} from "ionic-angular";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { RoyalEstatesApiProvider } from "../../providers/royal-estates-api/royal-estates-api";
 import { EstatePersistanceProvider } from "../../providers/estate-persistance/estate-persistance";
-import { ToastController } from "ionic-angular";
+import { ToastController, AlertController } from "ionic-angular";
 /**
  * Generated class for the OverviewPage page.
  *
@@ -27,7 +23,8 @@ export class OverviewPage {
     public navParams: NavParams,
     public customApi: RoyalEstatesApiProvider,
     public toastCtrl: ToastController,
-    public persistance: EstatePersistanceProvider
+    public persistance: EstatePersistanceProvider,
+    public alertCtrl: AlertController
   ) {
     this.estate = customApi.getCurrentEstate();
     this.includes = persistance.isInSavedEstates(this.estate);
@@ -43,22 +40,32 @@ export class OverviewPage {
   }
 
   showToastWithSelectors() {
-    const displayedTime = new Date().getTime();
-    const duration: number = 10000;
-    const toast = this.toastCtrl.create({
-      message: "Are you sure you want to remove this estate from saved.",
-      showCloseButton: true,
-      closeButtonText: "Yes",
-      dismissOnPageChange: false
+    const alert = this.alertCtrl.create({
+      title: "Confirm Remove",
+      message: "Are you sure you want to remove this estate from saved?",
+      buttons: [
+        {
+          text: "NO",
+          role: "cancel",
+          handler: () => {
+            console.log("Cancel clicked");
+          }
+        },
+        {
+          text: "YES",
+          handler: () => {
+            const toast = this.toastCtrl.create({
+              message: "You have removed the estate from the selection.",
+              dismissOnPageChange: false
+            });
+            toast.present();
+            this.persistance.removeFromSavedEstates(this.estate);
+            this.includes = false;
+          }
+        }
+      ]
     });
-    toast.onDidDismiss(() => {
-      const now = new Date().getTime();
-      if (displayedTime + duration > now) {
-        this.persistance.removeFromSavedEstates(this.estate);
-        this.includes = false;
-      }
-    });
-    toast.present();
+    alert.present();
   }
 
   doRefresh(refresher) {

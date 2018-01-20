@@ -17,7 +17,7 @@ export class EstatePersistanceProvider {
     private storage: Storage,
     public events: Events
   ) {
-  // this.storage.set("savedEstates", "[]");
+    // this.storage.set("savedEstates", "[]");
     storage.get("savedEstates").then(val => {
       const propVal = JSON.parse(val)
       if (!propVal || propVal.length == 0) {
@@ -31,7 +31,9 @@ export class EstatePersistanceProvider {
   }
 
   isInSavedEstates(estate: any) {
-    return _.includes(this.savedEstates, estate.refNumber);
+    return _.some(this.savedEstates, function(est) {
+        return est.refNumber === estate.refNumber;
+    });
   }
 
   getSavedEstates() {

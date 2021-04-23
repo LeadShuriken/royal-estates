@@ -4,7 +4,6 @@
 
 Angular Ionic Mobile application. Developed for a university course.
 
-</br>
 ## Technologies
 
 ROYAL-ESTATES-NG-IONIC-APP uses a number of open source projects:
